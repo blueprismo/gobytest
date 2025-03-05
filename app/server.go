@@ -1,5 +1,4 @@
-// server.go
-package main
+package poker
 
 import (
 	"encoding/json"
@@ -8,26 +7,31 @@ import (
 	"strings"
 )
 
-const jsonContentType = "application/json"
+// PlayerStore stores score information about players.
+type PlayerStore interface {
+	GetPlayerScore(name string) int
+	RecordWin(name string)
+	GetLeague() League
+}
 
+// Player stores a name with a number of wins.
 type Player struct {
 	Name string
 	Wins int
 }
 
-type PlayerStore interface {
-	GetPlayerScore(name string) int
-	RecordWin(name string)
-	GetLeague() []Player
-}
-
+// PlayerServer is a HTTP interface for player information.
 type PlayerServer struct {
-	store  PlayerStore
+	store PlayerStore
 	http.Handler
 }
 
+const jsonContentType = "application/json"
+
+// NewPlayerServer creates a PlayerServer with routing configured.
 func NewPlayerServer(store PlayerStore) *PlayerServer {
 	p := new(PlayerServer)
+
 	p.store = store
 
 	router := http.NewServeMux()
@@ -42,12 +46,6 @@ func NewPlayerServer(store PlayerStore) *PlayerServer {
 func (p *PlayerServer) leagueHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("content-type", jsonContentType)
 	json.NewEncoder(w).Encode(p.store.GetLeague())
-}
-
-func (p *PlayerServer) getLeagueTable() []Player {
-	return []Player{
-		{"Chris", 20},
-	}
 }
 
 func (p *PlayerServer) playersHandler(w http.ResponseWriter, r *http.Request) {
