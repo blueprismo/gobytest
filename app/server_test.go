@@ -67,13 +67,13 @@ func TestStoreWins(t *testing.T) {
 		server.ServeHTTP(response, request)
 
 		assertStatus(t, response.Code, http.StatusAccepted)
-		assertPlayerWin(t, &store, "Pepper")
+		AssertPlayerWin(t, &store, player)
 	})
 }
 
 func TestLeague(t *testing.T) {
 
-	t.Run("it returns the league table as JSON", func(t *testing.T) {
+	t.Run("it returns the League table as JSON", func(t *testing.T) {
 		wantedLeague := []Player{
 			{"Cleo", 32},
 			{"Chris", 20},
@@ -93,7 +93,6 @@ func TestLeague(t *testing.T) {
 		assertStatus(t, response.Code, http.StatusOK)
 		assertLeague(t, got, wantedLeague)
 		assertContentType(t, response, jsonContentType)
-		
 
 	})
 }
@@ -131,7 +130,7 @@ func assertStatus(t testing.TB, got, want int) {
 }
 
 func newLeagueRequest() *http.Request {
-	req, _ := http.NewRequest(http.MethodGet, "/league", nil)
+	req, _ := http.NewRequest(http.MethodGet, "/League", nil)
 	return req
 }
 
@@ -149,17 +148,5 @@ func assertResponseBody(t testing.TB, got, want string) {
 	t.Helper()
 	if got != want {
 		t.Errorf("response body is wrong, got %q want %q", got, want)
-	}
-}
-
-func assertPlayerWin(t testing.TB, store *StubPlayerStore, winner string) {
-	t.Helper()
-
-	if len(store.winCalls) != 1 {
-		t.Fatalf("got %d calls to RecordWin want %d", len(store.winCalls), 1)
-	}
-
-	if store.winCalls[0] != winner {
-		t.Errorf("did not store correct winner got %q want %q", store.winCalls[0], winner)
 	}
 }
