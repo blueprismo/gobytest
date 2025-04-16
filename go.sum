@@ -1,2 +1,4 @@
+github.com/gorilla/websocket v1.5.3 h1:saDtZ6Pbx/0u+bgYQ3q96pZgCzfhKXGPqt7kZ72aNNg=
+github.com/gorilla/websocket v1.5.3/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/adAjf1fMHhE=
 github.com/quii/learn-go-with-tests v0.0.0-20250122124320-23b25248e6ad h1:Dl8ze4lN+EA71JAxjRKbsmGQk/7k0STKJ+VJfwBrh5o=
 github.com/quii/learn-go-with-tests v0.0.0-20250122124320-23b25248e6ad/go.mod h1:BDeA6+fYG6w8kz8Fg9wKXgGwSCAvwljF7pAuLtXonfI=
